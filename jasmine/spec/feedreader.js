@@ -31,12 +31,33 @@ $(function() {
          * in the allFeeds object and ensures it has a URL defined
          * and that the URL is not empty.
          */
+        it('have valid URL', () => {
+            // URL VALIDATION REGEX PATTERN FROM:   
+            //https://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-a-url
+
+            const urlPattern =  new RegExp('^(https?:\\/\\/)?'+ // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name and extension
+            '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+            '(\\:\\d+)?'+ // port
+            '(\\/[-a-z\\d%@_.~+&:]*)*'+ // path
+            '(\\?[;&a-z\\d%@_.,~+&:=-]*)?'+ // query string
+            '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+
+            const filterURLS = allFeeds => allFeeds.filter(feed => !urlPattern.test(feed.url));
+            const invalidURLS = filterURLS(allFeeds);
+            expect(invalidURLS.length).toBe(0);
+        });
 
 
         /* TODO: Write a test that loops through each feed
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
+
+         it('have valid Name', () => {
+            const invalidName = allFeeds => allFeeds.filter((v,i,a) => RegExp('^[A-Za-z]$').test(v.url));
+            expect(invalidName.length).toBe(0);
+         });
     });
 
 
