@@ -27,12 +27,12 @@ $(function() {
         });
 
 
-        /* TODO: Write a test that loops through each feed
+        /* Write a test that loops through each feed
          * in the allFeeds object and ensures it has a URL defined
          * and that the URL is not empty.
          */
-        it('have valid URL', () => {
-            // URL VALIDATION REGEX PATTERN FROM:   
+        it('Has valid URL', () => {
+            // URL VALIDATION REGEX PATTERN FROM:
             //https://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-a-url
 
             const urlPattern =  new RegExp('^(https?:\\/\\/)?'+ // protocol
@@ -54,26 +54,43 @@ $(function() {
          * and that the name is not empty.
          */
 
-         it('have valid Name', () => {
-            const invalidName = allFeeds => allFeeds.filter((v,i,a) => RegExp('^[A-Za-z]$').test(v.url));
-            expect(invalidName.length).toBe(0);
+         it('Has valid Name', () => {
+            const namePattern =  new RegExp('^.{1,48}$'); 
+            const filterNames = allFeeds => allFeeds.filter(feed => !namePattern.test(feed.name.trim()));
+            const invalidNames = filterNames(allFeeds);
+            expect(invalidNames.length).toBe(0);
          });
     });
 
 
     /* TODO: Write a new test suite named "The menu" */
+    describe('The Menu', function() {
 
         /* TODO: Write a test that ensures the menu element is
          * hidden by default. You'll have to analyze the HTML and
          * the CSS to determine how we're performing the
          * hiding/showing of the menu element.
          */
+        it('Menu is hidden by default', () => {            
+            const bodyClass = document.querySelector('body').classList.contains('menu-hidden');
+            const menuElement = document.body.getElementsByClassName('slide-menu')[0];
+            console.dir(menuElement);
+            const menuStyle = window.getComputedStyle(menuElement, null);
+            console.dir(menuStyle);
+            expect(bodyClass).toBe(true);
+        });
+  
 
          /* TODO: Write a test that ensures the menu changes
           * visibility when the menu icon is clicked. This test
           * should have two expectations: does the menu display when
           * clicked and does it hide when clicked again.
           */
+         it('Menu visibility is toggled by icon click', () => {
+            
+        });
+
+         });
 
     /* TODO: Write a new test suite named "Initial Entries" */
 
