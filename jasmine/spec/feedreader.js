@@ -72,14 +72,20 @@ $(function() {
          * hiding/showing of the menu element.
          */
         it('Menu is hidden by default', () => {            
-            const bodyClass = document.querySelector('body').classList.contains('menu-hidden');
-            const menuElement = document.body.getElementsByClassName('slide-menu')[0];
-            console.dir(menuElement);
-            const menuStyle = window.getComputedStyle(menuElement, null);
-            console.dir(menuStyle);
-            expect(bodyClass).toBe(true);
-        });
-  
+                const bodyClass = document.querySelector('body').classList.contains('menu-hidden');
+                const menuElement = document.body.getElementsByClassName('slide-menu')[0];            
+                // console.dir(menuElement);
+                // const menuStyle = window.getComputedStyle(menuElement, null);
+                // console.dir(menuStyle);
+                // console.dir(menuElement.getBoundingClientRect());
+                const bounding = menuElement.getBoundingClientRect();
+                //console.dir(bounding)
+                bounding.left === bounding.x && bounding.left + bounding.width === 0? leftPosCheck = true: leftPosCheck = false;
+
+                expect(bodyClass).toBe(true);
+                expect(leftPosCheck).toBe(true);
+            });
+    
 
          /* TODO: Write a test that ensures the menu changes
           * visibility when the menu icon is clicked. This test
@@ -87,24 +93,77 @@ $(function() {
           * clicked and does it hide when clicked again.
           */
          it('Menu visibility is toggled by icon click', () => {
-            
-        });
+                const menuToggler = document.getElementsByClassName('menu-icon-link')[0];
+
+                menuToggler.click();
+                let bodyClass = document.querySelector('body').classList.contains('menu-hidden');
+                expect(bodyClass).toBe(false);
+
+                menuToggler.click();
+                bodyClass = document.querySelector('body').classList.contains('menu-hidden');
+                expect(bodyClass).toBe(true);
+            });
 
          });
 
-    /* TODO: Write a new test suite named "Initial Entries" */
+    /* Write a new test suite named "Initial Entries" */
+    describe('Initial entries', () => {
+        
+   
+    /* Write a test that ensures when the loadFeed
+    * function is called and completes its work, there is at least
+    * a single .entry element within the .feed container.
+    * Remember, loadFeed() is asynchronous so this test will require
+    * the use of Jasmine's beforeEach and asynchronous done() function.
+    */  
+        beforeEach(function(done){
+                loadFeed(0, ()=>done());
+               
+            });
 
-        /* TODO: Write a test that ensures when the loadFeed
-         * function is called and completes its work, there is at least
-         * a single .entry element within the .feed container.
-         * Remember, loadFeed() is asynchronous so this test will require
-         * the use of Jasmine's beforeEach and asynchronous done() function.
-         */
+
+        it('Load feed completed', (done) => {
+                let feedList = document.querySelectorAll('.feed  .entry');
+                expect(feedList.length).toBeGreaterThan(0);            
+                done();
+            });
+
+
+
+    });
+
+
 
     /* TODO: Write a new test suite named "New Feed Selection" */
-
+    describe('New Feed Selection', function() {
+                
+          
         /* TODO: Write a test that ensures when a new feed is loaded
-         * by the loadFeed function that the content actually changes.
-         * Remember, loadFeed() is asynchronous.
-         */
+        * by the loadFeed function that the content actually changes.
+        * Remember, loadFeed() is asynchronous.
+        */       
+        beforeEach(function(done) {
+            // get the .feed el innerHTML
+            this.InitialContent = document.querySelectorAll('.feed')[0].innerHTML;
+            // get a random index
+            let randomFeedIndex = Math.floor(Math.random() * ((allFeeds.length-1) - 1 + 1) + 1);
+            console.log(randomFeedIndex);
+            // load other feed
+            loadFeed(randomFeedIndex, ()=>done());
+            
+            });
+
+        it('Change content', function(done) {            
+                updatedContent = document.querySelectorAll('.feed')[0].innerHTML;            
+                expect(this.InitialContent).not.toEqual(updatedContent);
+                done();
+            });
+        
+        // reload the first feed after the test
+        afterEach(function(done){
+            loadFeed(0, ()=>done());
+            done();
+        });
+         
+        });
 }());
