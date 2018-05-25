@@ -38,7 +38,7 @@ $(function() {
         it('Has valid URL', () => {
             allFeeds.forEach(function(feed){
                 expect(feed.url).toBeDefined();
-                expect((feed.url.length)).toBeGreaterThan(0);                
+                expect((feed.url.length)).toBeGreaterThan(0);
                 });
         });
 
