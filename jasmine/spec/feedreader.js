@@ -39,7 +39,7 @@ $(function() {
             allFeeds.forEach(function(feed){
                 expect(feed.url).toBeDefined();
                 expect((feed.url.length)).toBeGreaterThan(0);
-                });
+            });
         });
 
 
@@ -51,7 +51,7 @@ $(function() {
             allFeeds.forEach(function(feed){
                 expect(feed.name).toBeDefined();
                 expect((feed.name).length).toBeGreaterThan(0);
-                });
+            });
         });
     });
 
@@ -67,13 +67,6 @@ $(function() {
         it('Menu is hidden by default', () => { 
             // check for .menu-hidden  class in body
             expect($('body').hasClass('menu-hidden')).toBe(true);
-            
-            // ###### Additional check offcanvas left position of menu
-            const menuElement = document.body.getElementsByClassName('slide-menu')[0];
-            const bounding = menuElement.getBoundingClientRect();
-            bounding.left === bounding.x && bounding.left + bounding.width === 0? leftPosCheck = true: leftPosCheck = false;
-            expect(leftPosCheck).toBe(true);
-            // ######
         });
     
 
@@ -83,18 +76,16 @@ $(function() {
           * clicked and does it hide when clicked again.
           */
 
-        it('Menu visibility is toggled by icon click', (done) => {
+        it('Menu visibility is toggled by icon click', () => {
 
             // emulate first click
             $('.menu-icon-link').click();
             expect($('body').hasClass('menu-hidden')).toBe(false);
             
-            // emulate second click after 600ms
-            setTimeout(() => {
-                $('.menu-icon-link').click();
-                expect($('body').hasClass('menu-hidden')).toBe(true);
-                done();
-            }, 600);
+            // emulate second click
+            $('.menu-icon-link').click();
+            expect($('body').hasClass('menu-hidden')).toBe(true);
+            
         });
 
     });
@@ -111,23 +102,22 @@ $(function() {
        beforeEach(function(done){
             //spyOn(window, 'loadFeed'); // TODO: how to spy loadFeed call???
             loadFeed(0, () => done());
-            });
+        });
 
-        it('Load feed completed', (done) => {
-            expect($('.entry').length).toBeGreaterThan(0);
-            done();
-            });
+        it('Load feed completed', () => {
+            expect($('.feed .entry').length).toBeGreaterThan(0);
+        });
     });
 
 
 
     /* Write a new test suite named "New Feed Selection" */
     describe('New Feed Selection', () => {
-                          
+
         /* Write a test that ensures when a new feed is loaded
         * by the loadFeed function that the content actually changes.
         * Remember, loadFeed() is asynchronous.
-        */      
+        */
 
         beforeEach(function(done) {
             // Async load load first feed and then second feed
@@ -143,7 +133,7 @@ $(function() {
         it('Change content', function() {
             expect(InitialContent).not.toEqual(updatedContent);
         });
-        
+
 
     });
 }());
