@@ -12,6 +12,8 @@ Clone the repository and open index.html.
 All spec tests are defined in jasmine/spec/feedreader.js. All tests should pass by default.
 Additional tests can be added in jasmine/spec/feedreader.js.
 
+## Live demo
+[https://giannicuccu.github.io/UDCT/JSMN/index.html](https://giannicuccu.github.io/UDCT/JSMN/index.html)
 
 ## Resources
 [Jasmine documentation](http://jasmine.github.io)
